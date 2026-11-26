@@ -30,6 +30,7 @@ Delivery is founders + AI tools only (no freelancers), so favour automated, prod
 | `docs/02-prototype-plan.md` | Prototype milestones and task checklist |
 | `docs/03-services-and-pricing.md` | Service catalogue, pricing, claims to confirm |
 | `docs/04-tools-and-subscriptions.md` | Tools we pay for vs. client pays for |
+| `docs/05-platform.md` | Platform proposal: modules, MVP, journey, tech outline |
 | `website/` | Marketing site (Astro). See `website/README.md` |
 | `docs/decisions/` | ADRs — one file per important decision (`NNNN-title.md`) |
 | `docs/open-questions.md` | Things we still need answers to |
