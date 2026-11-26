@@ -10,5 +10,5 @@ export default defineConfig({
       i18n: { defaultLocale: "ar", locales: { ar: "ar-IQ", en: "en" } },
     }),
   ],
-  build: { inlineStylesheets: "auto" },
+  build: { inlineStylesheets: "auto", assets: "assets" },
 });

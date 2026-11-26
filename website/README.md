@@ -27,5 +27,13 @@ npm run preview
 ## Lead form
 Validates, opens WhatsApp with a pre-filled message, and — if `PUBLIC_LEAD_ENDPOINT` is set in `.env` — also POSTs the lead as JSON (e.g. to a Google Apps Script that appends to a Sheet). See `.env.example`.
 
+## Live preview (claude.ai Artifact)
+Private, shareable prototype: https://claude.ai/artifact/2Shn93rpXECbv8dCDJgfZZ
+
+```bash
+npm run preview:export   # build + rewrite links to relative → preview/ (gitignored)
+```
+Then republish `preview/index.html` with the other files of `preview/` (no `.woff`, sitemaps). Asset dir is `assets/` because the artifact host reserves names starting with `_`.
+
 ## Deploy
 `dist/` is plain static output. Recommended: Cloudflare Pages (free) — build command `npm run build`, output `dist`, root `website`.
