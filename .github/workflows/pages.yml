@@ -29,6 +29,8 @@ jobs:
           cache-dependency-path: website/package-lock.json
       - run: npm ci
       - run: npm run export:static
+        env:
+          PUBLIC_COMMIT_SHA: ${{ github.sha }}
       - name: Publish to gh-pages
         working-directory: website/static
         run: |

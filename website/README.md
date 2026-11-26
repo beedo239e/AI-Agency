@@ -35,6 +35,21 @@ npm run preview:export   # build + rewrite links to relative → preview/ (gitig
 ```
 Then republish `preview/index.html` with the other files of `preview/` (no `.woff`, sitemaps). Asset dir is `assets/` because the artifact host reserves names starting with `_`.
 
+## Hosting anywhere (portable)
+The site is plain static files with no server and no lock-in. Two build outputs:
+
+| Command | Output | Use when the site is served at… |
+|---------|--------|---------------------------------|
+| `npm run build` | `dist/` | the **root of a domain** (e.g. `zayoni.ai`, `x.pages.dev`, `x.vercel.app`, `x.netlify.app`, any cPanel/Hostinger `public_html`) |
+| `npm run export:static` | `static/` | a **sub-path** (e.g. `user.github.io/AI-Agency/`); all links are relative so it works at any path |
+
+Host-specific settings:
+- **Cloudflare Pages / Vercel / Netlify / Render** (connect the repo): root directory `website`, build command `npm run build`, output `dist`, Node 22. Works with a private repo.
+- **Shared hosting (cPanel, Hostinger, etc.)**: run `npm run build` locally and upload the contents of `dist/` to `public_html/`.
+- **GitHub Pages**: already automated (below). Note: on GitHub's free plan Pages only works for public repos. If the repo goes private, use one of the hosts above instead.
+
+Every page has `<meta name="build-commit">` with the commit it was built from, so you can check which version is live (view page source).
+
 ## Deploy
 **Primary: GitHub Pages** → https://beedo239e.github.io/AI-Agency/
 Every push touching `website/` runs `.github/workflows/pages.yml`, which builds `npm run export:static` (relative links) and force-pushes the result to the `gh-pages` branch. Pages source: *Deploy from a branch → gh-pages / (root)*.
