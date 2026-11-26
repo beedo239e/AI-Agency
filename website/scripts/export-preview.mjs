@@ -5,7 +5,8 @@
  *
  *   npm run build && node scripts/export-preview.mjs [outDir]
  *
- * The root index.html is emitted without <!doctype>/<html>/<head>/<body>
+ * Pass --full for a normal static host (e.g. GitHub Pages under /<repo>/).
+ * Otherwise the root index.html is emitted without <!doctype>/<html>/<head>/<body>
  * (the Artifact host wraps the main page in its own skeleton); lang/dir are
  * restored by a tiny inline script. Other pages stay complete documents.
  */
@@ -13,7 +14,9 @@ import { cpSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } fr
 import { dirname, extname, join, relative } from "node:path";
 
 const src = "dist";
-const out = process.argv[2] ?? "preview";
+const args = process.argv.slice(2);
+const full = args.includes("--full"); // keep every page a complete HTML document (GitHub Pages, any static host)
+const out = args.find((a) => !a.startsWith("--")) ?? "preview";
 rmSync(out, { recursive: true, force: true });
 cpSync(src, out, { recursive: true });
 
@@ -45,7 +48,7 @@ for (const f of files) {
   s = s.replace(/url\((["']?)(\/(?!\/)[^)"']*)\1\)/g, (_, q, u) => `url(${q}${rel(u, f)}${q})`);
   if (ext === ".js") s = s.replace(/(["'])(\/assets\/[^"']+)\1/g, (_, q, u) => `${q}${rel(u, f)}${q}`);
 
-  if (relative(out, f) === "index.html") {
+  if (!full && relative(out, f) === "index.html") {
     const lang = s.match(/<html[^>]*\slang="([^"]+)"/)?.[1] ?? "ar";
     const dir = s.match(/<html[^>]*\sdir="([^"]+)"/)?.[1] ?? "rtl";
     s = s

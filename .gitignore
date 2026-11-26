@@ -31,3 +31,4 @@ npm-debug.log*
 # Astro
 .astro/
 preview/
+static/
