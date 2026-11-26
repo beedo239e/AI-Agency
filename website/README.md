@@ -52,7 +52,7 @@ Every page has `<meta name="build-commit">` with the commit it was built from, s
 
 ## Deploy
 **Primary: GitHub Pages** → https://beedo239e.github.io/AI-Agency/
-Every push touching `website/` runs `.github/workflows/pages.yml`, which builds `npm run export:static` (relative links) and force-pushes the result to the `gh-pages` branch. Pages source: *Deploy from a branch → gh-pages / (root)*.
+Every push to `main` touching `website/` runs `.github/workflows/pages.yml`, which builds `npm run export:static` (relative links) and force-pushes the result to the `gh-pages` branch. Pages source: *Deploy from a branch → gh-pages / (root)*.
 
 **Live:** https://zayoni-ai.netlify.app (Netlify, public).
 

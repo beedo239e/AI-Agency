@@ -46,12 +46,13 @@ Delivery is founders + AI tools only (no freelancers), so favour automated, prod
 ## Website rules
 - Copy only in `website/src/i18n/{ar,en}.ts`; prices in `src/data/pricing.ts`; never hard-code text in components.
 - Never present placeholder testimonials/clients as real. Replace from `src/data/clients.ts` with approved quotes only.
-- **Public site: https://beedo239e.github.io/AI-Agency/** (GitHub Pages, `gh-pages` branch, auto-built by `.github/workflows/pages.yml` on push). Netlify (`zayoni-ai.netlify.app`) is unreachable from the founder's network in Egypt/Iraq: don't rely on it.
+- **Public site: https://beedo239e.github.io/AI-Agency/** (GitHub Pages, `gh-pages` branch, auto-built by `.github/workflows/pages.yml` on every push to `main` that touches `website/`). Netlify (`zayoni-ai.netlify.app`) is unreachable from the founder's network in Egypt/Iraq: don't rely on it.
 - The repo is meant to be **public**: never commit secrets, client data or private contacts.
 - Verify visually (Playwright screenshots, desktop + mobile, RTL + LTR) after UI changes; `npm run build` must pass.
 
 ## Git
-- Work branch: `claude/youthful-hopper-tcsism`. Commit small, descriptive commits; push to that branch.
+- `main` is the source of truth and the only branch that deploys the website. The founders edit `main` directly.
+- Claude works on `claude/youthful-hopper-tcsism`; changes reach the live site only once merged into `main` (fast-forward). Ask the founder before pushing to `main` unless they already asked for that change to go live.
 - No pull requests unless the founder asks.
 - Never commit secrets. Real keys go in `.env` (gitignored); document names in `.env.example`.
 
