@@ -36,6 +36,9 @@ npm run preview:export   # build + rewrite links to relative → preview/ (gitig
 Then republish `preview/index.html` with the other files of `preview/` (no `.woff`, sitemaps). Asset dir is `assets/` because the artifact host reserves names starting with `_`.
 
 ## Deploy
+**Primary: GitHub Pages** → https://beedo239e.github.io/AI-Agency/
+Every push touching `website/` runs `.github/workflows/pages.yml`, which builds `npm run export:static` (relative links) and force-pushes the result to the `gh-pages` branch. Pages source: *Deploy from a branch → gh-pages / (root)*.
+
 **Live:** https://zayoni-ai.netlify.app (Netlify, public).
 
 ```bash
