@@ -1,0 +1,162 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+import { site, waLink } from "../data/site";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.lead;
+const sectors = all.sectors.items.map((s) => s.label);
+const i18n = {
+  required: d.required, invalidPhone: d.invalidPhone, sending: d.sending, submit: d.submit, waIntro: d.waIntro,
+  labels: { name: d.name, business: d.business, phone: d.phone, sector: d.sector, message: d.message, plan: all.nav.pricing },
+};
+---
+<section class="section section--surface" id="contact">
+  <div class="container lead-grid">
+    <div class="reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+      <p class="lead">{d.lead}</p>
+      <ul class="check-list lead-points">{d.points.map((p) => <li><Icon name="check" />{p}</li>)}</ul>
+      <a class="lead-wa" href={waLink(d.waIntro)} target="_blank" rel="noopener">
+        <span><Icon name="whatsapp" size={22} /></span>
+        <span><small>{d.or}</small><strong dir="ltr">{site.whatsappDisplay}</strong></span>
+      </a>
+    </div>
+
+    <div class="form-card reveal">
+      <form novalidate data-lead-form data-endpoint={site.leadEndpoint} data-wa={site.whatsapp} data-i18n={JSON.stringify(i18n)} data-lang={lang}>
+        <div class="form-row">
+          <div class="field">
+            <label for="lf-name">{d.name}</label>
+            <input class="input" id="lf-name" name="name" autocomplete="name" required />
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="lf-business">{d.business}</label>
+            <input class="input" id="lf-business" name="business" autocomplete="organization" required />
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="lf-phone">{d.phone}</label>
+            <input class="input" id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="07xx xxx xxxx" required />
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="lf-sector">{d.sector}</label>
+            <select class="input" id="lf-sector" name="sector" required>
+              <option value="">{d.sectorPlaceholder}</option>
+              {sectors.map((s) => <option>{s}</option>)}
+              <option>{d.sectorOther}</option>
+            </select>
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="lf-message">{d.message}</label>
+          <textarea class="input" id="lf-message" name="message" rows="3"></textarea>
+        </div>
+        <input type="hidden" name="plan" />
+        <button class="btn btn--primary btn--block" type="submit">{d.submit}</button>
+        <p class="form-privacy">{d.privacy}</p>
+      </form>
+
+      <div class="form-success" hidden data-lead-success tabindex="-1">
+        <span class="form-success__icon"><Icon name="checkCircle" size={30} /></span>
+        <h3>{d.successTitle}</h3>
+        <p>{d.successText}</p>
+        <a class="btn btn--primary" href="#" target="_blank" rel="noopener" data-wa-link><Icon name="whatsapp" size={20} />{d.openWhatsapp}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lead-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
+  .lead-points { margin-block: 2rem; }
+  .lead-wa { display: inline-flex; align-items: center; gap: .85rem; padding: .75rem 1.1rem .75rem 1.4rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg); transition: border-color .2s; }
+  .lead-wa:hover { border-color: #25d366; }
+  .lead-wa > span:first-child { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #25d366; color: #fff; }
+  .lead-wa > span:last-child { display: grid; line-height: 1.35; }
+  .lead-wa small { color: var(--muted); font-size: var(--fs-xs); }
+  .form-card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.5rem, 1rem + 2vw, 2.25rem); box-shadow: var(--shadow); }
+  form { display: grid; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-privacy { font-size: var(--fs-xs); color: var(--muted); text-align: center; }
+  .form-success { text-align: center; padding-block: 2rem; display: grid; justify-items: center; gap: .75rem; }
+  .form-success:focus { outline: none; }
+  .form-success__icon { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+  .form-success h3 { font-size: var(--fs-xl); }
+  .form-success p { color: var(--ink-2); max-width: 40ch; margin-block-end: .75rem; }
+  @media (max-width: 960px) { .lead-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  type I18n = { required: string; invalidPhone: string; sending: string; submit: string; waIntro: string; labels: Record<string, string> };
+
+  for (const form of document.querySelectorAll<HTMLFormElement>("[data-lead-form]")) {
+    const i18n: I18n = JSON.parse(form.dataset.i18n!);
+    const success = form.parentElement!.querySelector<HTMLElement>("[data-lead-success]")!;
+    const waLinkEl = success.querySelector<HTMLAnchorElement>("[data-wa-link]")!;
+    const submitBtn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+
+    try {
+      const plan = sessionStorage.getItem("zayoni:plan");
+      if (plan) form.querySelector<HTMLInputElement>("input[name=plan]")!.value = plan;
+    } catch {}
+
+    const setError = (el: HTMLInputElement | HTMLSelectElement, msg: string) => {
+      el.setAttribute("aria-invalid", msg ? "true" : "false");
+      const out = el.parentElement!.querySelector(".field-error");
+      if (out) out.textContent = msg;
+    };
+    const validate = () => {
+      let firstBad: HTMLElement | null = null;
+      form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[required]").forEach((el) => {
+        let msg = el.value.trim() ? "" : i18n.required;
+        if (!msg && el.name === "phone" && el.value.replace(/\D/g, "").length < 8) msg = i18n.invalidPhone;
+        setError(el, msg);
+        if (msg && !firstBad) firstBad = el;
+      });
+      (firstBad as HTMLElement | null)?.focus();
+      return !firstBad;
+    };
+    form.querySelectorAll<HTMLInputElement>("[required]").forEach((el) =>
+      el.addEventListener("input", () => el.getAttribute("aria-invalid") === "true" && setError(el, "")),
+    );
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      const lines = [i18n.waIntro, ""];
+      for (const k of ["name", "business", "phone", "sector", "plan", "message"]) {
+        if (data[k]) lines.push(`${i18n.labels[k]}: ${data[k]}`);
+      }
+      const url = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(lines.join("\n"))}`;
+
+      // Persist the lead if an endpoint is configured (fire-and-forget; WhatsApp is the fallback).
+      const endpoint = form.dataset.endpoint;
+      if (endpoint) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = i18n.sending;
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...data, lang: form.dataset.lang, page: location.pathname, ts: new Date().toISOString() }),
+          keepalive: true,
+        }).catch(() => {});
+      }
+
+      waLinkEl.href = url;
+      window.open(url, "_blank", "noopener");
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+    });
+  }
+</script>

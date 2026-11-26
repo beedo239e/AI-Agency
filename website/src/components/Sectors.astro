@@ -1,0 +1,84 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const all = t(lang);
+const d = all.sectors;
+const planName = (id: string) => (all.pricing.plans as Record<string, { name: string }>)[id]?.name ?? id;
+---
+<section class="section" id="sectors">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+      <p class="lead">{d.lead}</p>
+    </div>
+    <div class="sectors reveal" data-tabs>
+      <div class="sectors__tabs" role="tablist" aria-orientation="vertical">
+        {d.items.map((s, i) => (
+          <button type="button" role="tab" id={`tab-${s.id}`} aria-controls={`panel-${s.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      {d.items.map((s, i) => (
+        <div class="sectors__panel" role="tabpanel" id={`panel-${s.id}`} aria-labelledby={`tab-${s.id}`} hidden={i !== 0}>
+          <p class="sectors__pain">{s.pains}</p>
+          <ul class="sectors__does">
+            {s.does.map((x) => <li><Icon name="checkCircle" size={20} />{x}</li>)}
+          </ul>
+          <div class="sectors__foot">
+            <span>{d.recommended}: <strong>{planName(s.plan)}</strong></span>
+            <a class="btn btn--primary btn--sm" href="#contact">{all.nav.cta}</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .sectors { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+  .sectors__tabs { display: grid; gap: .35rem; align-content: start; }
+  .sectors__tabs button { text-align: start; padding: .9rem 1.1rem; border-radius: var(--radius); font-weight: 600; color: var(--ink-2); border: 1px solid transparent; transition: background-color .15s, border-color .15s; }
+  .sectors__tabs button:hover { background: var(--surface); }
+  .sectors__tabs button[aria-selected="true"] { background: var(--surface); border-color: var(--line); color: var(--ink); box-shadow: var(--shadow-sm); }
+  .sectors__panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+  .sectors__pain { font-size: var(--fs-xl); font-weight: 600; line-height: 1.5; margin-block-end: 1.75rem; }
+  .sectors__does { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+  .sectors__does li { display: flex; gap: .6rem; align-items: flex-start; color: var(--ink-2); }
+  .sectors__does :global(svg) { color: var(--brand); flex: none; margin-block-start: .2rem; }
+  .sectors__foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-block-start: 2rem; padding-block-start: 1.5rem; border-block-start: 1px solid var(--line); color: var(--muted); }
+  .sectors__foot strong { color: var(--brand); }
+  @media (max-width: 860px) {
+    .sectors { grid-template-columns: 1fr; }
+    .sectors__tabs { display: flex; overflow-x: auto; scrollbar-width: none; gap: .4rem; }
+    .sectors__tabs button { white-space: nowrap; padding: .6rem 1rem; border-radius: 999px; border-color: var(--line); background: var(--surface); }
+    .sectors__tabs button[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .sectors__does { grid-template-columns: 1fr; }
+  }
+</style>
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-tabs]")) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const select = (tab: HTMLButtonElement) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")!)!.hidden = !on;
+      });
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", (e) => {
+        const keys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
+        if (!keys.includes(e.key)) return;
+        e.preventDefault();
+        const next = e.key === "ArrowDown" || e.key === (document.dir === "rtl" ? "ArrowLeft" : "ArrowRight") ? 1 : -1;
+        const target = tabs[(i + next + tabs.length) % tabs.length];
+        select(target); target.focus();
+      });
+    });
+  }
+</script>

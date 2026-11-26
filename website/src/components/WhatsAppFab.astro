@@ -1,0 +1,19 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+import { waLink } from "../data/site";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang);
+---
+<a class="wa-fab" href={waLink(d.lead.waIntro)} target="_blank" rel="noopener" aria-label="WhatsApp">
+  <Icon name="whatsapp" size={28} />
+</a>
+<style>
+  .wa-fab {
+    position: fixed; inset-block-end: 20px; inset-inline-end: 20px; z-index: 40;
+    width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    background: #25d366; color: #fff; box-shadow: 0 10px 24px -8px rgba(0,0,0,.35);
+    transition: transform .2s var(--ease);
+  }
+  .wa-fab:hover { transform: scale(1.06); }
+</style>

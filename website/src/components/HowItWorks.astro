@@ -1,0 +1,35 @@
+---
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).how;
+---
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+    </div>
+    <ol class="steps">
+      {d.steps.map((s, i) => (
+        <li class="step reveal">
+          <div class="step__marker"><span>{i + 1}</span></div>
+          <span class="chip">{s.tag}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; position: relative; }
+  .steps::before { content: ""; position: absolute; top: 22px; inset-inline: 16%; height: 2px; background: repeating-linear-gradient(90deg, var(--line-strong) 0 8px, transparent 8px 14px); }
+  .step { text-align: center; position: relative; }
+  .step__marker { width: 46px; height: 46px; margin: 0 auto 1.25rem; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; font-weight: 700; box-shadow: 0 0 0 6px var(--bg); position: relative; }
+  .step h3 { font-size: var(--fs-lg); margin-block: .75rem .4rem; }
+  .step p { color: var(--ink-2); max-width: 32ch; margin-inline: auto; }
+  @media (max-width: 860px) {
+    .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+    .steps::before { display: none; }
+  }
+</style>

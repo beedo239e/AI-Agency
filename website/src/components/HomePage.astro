@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "./Hero.astro";
+import TrustBar from "./TrustBar.astro";
+import Problem from "./Problem.astro";
+import Features from "./Features.astro";
+import HowItWorks from "./HowItWorks.astro";
+import Control from "./Control.astro";
+import Pricing from "./Pricing.astro";
+import Calculator from "./Calculator.astro";
+import Sectors from "./Sectors.astro";
+import ServicesGrid from "./ServicesGrid.astro";
+import Testimonials from "./Testimonials.astro";
+import Faq from "./Faq.astro";
+import LeadForm from "./LeadForm.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<Base lang={lang}>
+  <Hero lang={lang} />
+  <TrustBar lang={lang} />
+  <Problem lang={lang} />
+  <Features lang={lang} />
+  <HowItWorks lang={lang} />
+  <Control lang={lang} />
+  <section class="section section--sunken" id="pricing">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <p class="eyebrow">{d.pricing.eyebrow}</p>
+        <h2 class="h2">{d.pricing.title}</h2>
+        <p class="lead">{d.pricing.lead}</p>
+      </div>
+      <Pricing lang={lang} headingLevel="h3" />
+    </div>
+  </section>
+  <Calculator lang={lang} />
+  <Sectors lang={lang} />
+  <ServicesGrid lang={lang} />
+  <Testimonials lang={lang} />
+  <Faq id="faq" eyebrow={d.faq.eyebrow} title={d.faq.title} items={d.faq.items} />
+  <LeadForm lang={lang} />
+</Base>

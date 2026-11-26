@@ -1,0 +1,135 @@
+---
+import Icon from "./Icon.astro";
+import { t, href, fmtNumber, type Lang } from "../i18n";
+import { plans, addons, annualMonthly, type PlanId, type AddonId } from "../data/pricing";
+import { services } from "../data/services";
+interface Props { lang: Lang; showAddons?: boolean; showLink?: boolean; headingLevel?: "h1" | "h2" }
+const { lang, showAddons = true, showLink = true, headingLevel = "h2" } = Astro.props;
+const d = t(lang).pricing;
+const ids: PlanId[] = ["starter", "growth", "business"];
+const H = headingLevel;
+const addonSlug: Record<AddonId, string> = { website: "website", content: "content", reviews: "reviews", voice: "voice", reports: "reports", training: "training" };
+const home = href(lang, "/");
+---
+<div class="pricing" data-pricing>
+  <div class="billing" role="radiogroup" aria-label={`${d.monthly} / ${d.yearly}`}>
+    <button type="button" role="radio" aria-checked="true" data-billing="monthly">{d.monthly}</button>
+    <button type="button" role="radio" aria-checked="false" data-billing="yearly">{d.yearly} <span class="chip chip--gold">{d.yearlyBadge}</span></button>
+  </div>
+
+  <div class="plans">
+    {ids.map((id) => {
+      const p = plans[id];
+      const c = d.plans[id];
+      return (
+        <article class:list={["plan", { "plan--featured": p.featured }]}>
+          {p.featured && <span class="plan__badge">{d.popular}</span>}
+          <H class="plan__name">{c.name}</H>
+          <p class="plan__desc">{c.desc}</p>
+          <p class="plan__price">
+            <span class="plan__amount num" data-monthly={`$${p.monthly}`} data-yearly={`$${annualMonthly(p.monthly)}`}>${p.monthly}</span>
+            <span class="plan__per">{d.perMonth}<small data-yearly-note hidden> · {d.billedYearly}</small></span>
+          </p>
+          <p class="plan__setup num">+ ${p.setup} {d.setup}</p>
+          <a class:list={["btn", "btn--block", p.featured ? "btn--primary" : "btn--secondary"]} href={`${home}#contact`} data-plan={id}>{d.choose} {c.name}</a>
+          <p class="plan__quota num"><Icon name="message" size={16} />{fmtNumber(lang, p.conversations)} {d.conversations}</p>
+          <ul class="check-list">
+            {c.features.map((f) => <li><Icon name="check" />{f}</li>)}
+          </ul>
+        </article>
+      );
+    })}
+    <article class="plan plan--custom">
+      <H class="plan__name">{d.custom.name}</H>
+      <p class="plan__desc">{d.custom.desc}</p>
+      <p class="plan__price"><span class="plan__amount plan__amount--text">{d.custom.price}</span></p>
+      <p class="plan__setup">&nbsp;</p>
+      <a class="btn btn--block btn--secondary" href={`${home}#contact`}>{d.custom.cta}</a>
+      <ul class="check-list" style="margin-block-start: 1.5rem">
+        {d.custom.features.map((f) => <li><Icon name="check" />{f}</li>)}
+      </ul>
+    </article>
+  </div>
+
+  <ul class="pricing__notes">{d.notes.map((n) => <li>{n}</li>)}</ul>
+
+  {showAddons && (
+    <div class="addons">
+      <h3>{d.addonsTitle}</h3>
+      <div class="addons__grid">
+        {(Object.keys(addons) as AddonId[]).map((id) => {
+          const a = addons[id];
+          const s = services.find((x) => x.slug === addonSlug[id])!;
+          const priceText = a.unit === "from" ? `${d.addonUnits.from} $${a.price}${d.addonUnits.mo}` : `$${a.price} ${d.addonUnits[a.unit]}`;
+          return (
+            <a class="addon" href={href(lang, `/services/${s.slug}`)}>
+              <span class="icon-tile"><Icon name={s.icon} /></span>
+              <span class="addon__text"><strong>{s.title[lang]}</strong><span class="num">{priceText}</span></span>
+              <Icon name="arrow" size={18} class="addon__arrow" />
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  {showLink && <p class="pricing__more"><a class="btn btn--ghost" href={href(lang, "/pricing")}>{d.seeAll}<Icon name="arrow" class="flip" /></a></p>}
+</div>
+
+<style>
+  .billing { display: flex; width: fit-content; margin: 0 auto 2.5rem; padding: .3rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+  .billing button { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1.2rem; border-radius: 999px; font-weight: 600; font-size: var(--fs-sm); color: var(--muted); }
+  .billing button[aria-checked="true"] { background: var(--ink); color: #fff; }
+  .billing button[aria-checked="true"] .chip { background: rgba(255,255,255,.16); color: #fbe3b1; }
+
+  .plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; align-items: stretch; }
+  .plan { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.75rem 1.5rem; }
+  .plan--featured { border: 2px solid var(--brand); box-shadow: var(--shadow-lg); }
+  .plan--custom { background: var(--bg-sunken); }
+  .plan__badge { position: absolute; top: -13px; inset-inline-start: 1.5rem; background: var(--brand); color: #fff; font-size: var(--fs-xs); font-weight: 600; padding: .2rem .7rem; border-radius: 999px; }
+  .plan__name { font-size: var(--fs-lg); }
+  .plan__desc { color: var(--muted); font-size: var(--fs-sm); margin-block: .35rem 1.25rem; min-height: 3.2em; }
+  .plan__price { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; }
+  .plan__amount { font-size: 2.6rem; font-weight: 700; letter-spacing: -.02em; line-height: 1; direction: ltr; }
+  .plan__amount--text { font-size: 1.9rem; }
+  .plan__per { color: var(--muted); font-size: var(--fs-sm); }
+  .plan__setup { color: var(--muted); font-size: var(--fs-xs); margin-block: .5rem 1.25rem; }
+  .plan__quota { display: flex; align-items: center; gap: .45rem; font-size: var(--fs-sm); font-weight: 600; margin-block: 1.25rem 1rem; padding-block-end: 1rem; border-block-end: 1px solid var(--line); }
+  .plan__quota :global(svg) { color: var(--brand); }
+  .plan .check-list { font-size: var(--fs-sm); }
+
+  .pricing__notes { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.5rem; margin-block-start: 1.5rem; color: var(--muted); font-size: var(--fs-xs); }
+  .pricing__notes li::before { content: "•"; margin-inline-end: .4rem; }
+
+  .addons { margin-block-start: 4rem; }
+  .addons h3 { font-size: var(--fs-xl); text-align: center; margin-block-end: 1.5rem; }
+  .addons__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .addon { display: grid; grid-template-columns: 44px 1fr 18px; gap: 1rem; align-items: center; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: border-color .2s, transform .2s var(--ease); }
+  .addon:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .addon__text { display: grid; line-height: 1.4; }
+  .addon__text strong { font-size: var(--fs-sm); }
+  .addon__text span { font-size: var(--fs-xs); color: var(--muted); }
+  .addon :global(.addon__arrow) { color: var(--muted); }
+  [dir="rtl"] .addon :global(.addon__arrow) { transform: scaleX(-1); }
+  .pricing__more { text-align: center; margin-block-start: 2rem; }
+
+  @media (max-width: 1100px) { .plans { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) { .addons__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .plans, .addons__grid { grid-template-columns: 1fr; } .plan__desc { min-height: 0; } }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-pricing]")) {
+    const btns = root.querySelectorAll<HTMLButtonElement>("[data-billing]");
+    btns.forEach((b) => b.addEventListener("click", () => {
+      const mode = b.dataset.billing as "monthly" | "yearly";
+      btns.forEach((x) => x.setAttribute("aria-checked", String(x === b)));
+      root.querySelectorAll<HTMLElement>(".plan__amount[data-monthly]").forEach((el) => { el.textContent = el.dataset[mode]!; });
+      root.querySelectorAll<HTMLElement>("[data-yearly-note]").forEach((el) => { el.hidden = mode !== "yearly"; });
+    }));
+    // Pre-select the plan in the lead form.
+    root.querySelectorAll<HTMLAnchorElement>("[data-plan]").forEach((a) => a.addEventListener("click", () => {
+      try { sessionStorage.setItem("zayoni:plan", a.dataset.plan!); } catch {}
+    }));
+  }
+</script>

@@ -1,0 +1,48 @@
+---
+import Icon from "./Icon.astro";
+import { t, href, type Lang } from "../i18n";
+import { services } from "../data/services";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).services;
+const kindLabel = { core: d.core, addon: d.addon, custom: d.custom };
+---
+<section class="section section--surface" id="services">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+      <p class="lead">{d.lead}</p>
+    </div>
+    <div class="svc-grid">
+      {services.map((s) => (
+        <a class:list={["svc reveal", { "svc--core": s.kind === "core" }]} href={href(lang, `/services/${s.slug}`)}>
+          <div class="svc__top">
+            <span class="icon-tile"><Icon name={s.icon} /></span>
+            <span class:list={["chip", { "chip--gold": s.kind !== "core" }]}>{kindLabel[s.kind]}</span>
+          </div>
+          <h3>{s.title[lang]}</h3>
+          <p>{s.tagline[lang]}</p>
+          <div class="svc__foot">
+            <span class="num">{s.price[lang]}</span>
+            <span class="svc__more">{d.more}<Icon name="arrow" size={16} /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .svc { display: flex; flex-direction: column; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg); transition: border-color .2s, transform .2s var(--ease), box-shadow .2s; }
+  .svc:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .svc--core { grid-column: span 2; background: var(--brand-softer); border-color: color-mix(in srgb, var(--brand) 30%, var(--line)); }
+  .svc__top { display: flex; justify-content: space-between; align-items: center; margin-block-end: 1.25rem; }
+  .svc h3 { font-size: var(--fs-lg); margin-block-end: .35rem; }
+  .svc p { color: var(--ink-2); font-size: var(--fs-sm); flex: 1; }
+  .svc__foot { display: flex; justify-content: space-between; align-items: center; margin-block-start: 1.25rem; padding-block-start: 1rem; border-block-start: 1px solid var(--line); font-size: var(--fs-sm); font-weight: 600; }
+  .svc__more { display: inline-flex; align-items: center; gap: .3rem; color: var(--brand); }
+  [dir="rtl"] .svc__more :global(svg) { transform: scaleX(-1); }
+  @media (max-width: 1024px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } .svc--core { grid-column: auto; } }
+  @media (max-width: 600px) { .svc-grid { grid-template-columns: 1fr; } .svc--core { grid-column: auto; } }
+</style>

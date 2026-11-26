@@ -1,0 +1,33 @@
+---
+import Icon from "./Icon.astro";
+interface Props { eyebrow?: string; title: string; items: { q: string; a: string }[]; id?: string }
+const { eyebrow, title, items, id } = Astro.props;
+---
+<section class="section" id={id}>
+  <div class="container faq">
+    <div class="section-head reveal">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 class="h2">{title}</h2>
+    </div>
+    <div class="faq__list reveal">
+      {items.map((it) => (
+        <details class="faq__item">
+          <summary>{it.q}<span class="faq__icon"><Icon name="plus" size={18} /></span></summary>
+          <p>{it.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .faq { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
+  .faq__list { border-block-start: 1px solid var(--line); }
+  .faq__item { border-block-end: 1px solid var(--line); }
+  .faq__item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.25rem 0; font-weight: 600; font-size: var(--fs-md); cursor: pointer; }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary:hover { color: var(--brand); }
+  .faq__icon { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-sunken); transition: transform .25s var(--ease), background-color .2s; }
+  .faq__item[open] .faq__icon { transform: rotate(45deg); background: var(--brand-soft); color: var(--brand); }
+  .faq__item p { padding-block-end: 1.25rem; color: var(--ink-2); max-width: 62ch; }
+  @media (max-width: 860px) { .faq { grid-template-columns: 1fr; } }
+</style>

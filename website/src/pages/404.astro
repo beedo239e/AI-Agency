@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import { t } from "../i18n";
+import { waLink } from "../data/site";
+const d = t("ar").notFound;
+const e = t("en").notFound;
+---
+<Base lang="ar" title={`404 | ${d.title}`}>
+  <section class="section" style="text-align:center">
+    <div class="container" style="max-width:560px">
+      <p class="eyebrow">404</p>
+      <h1 class="h2">{d.title}</h1>
+      <p class="lead">{d.text}</p>
+      <p class="muted" lang="en" dir="ltr" style="margin-top:.5rem">{e.title}. {e.text}</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;margin-top:2rem;flex-wrap:wrap">
+        <a class="btn btn--primary" href="/">{d.home}</a>
+        <a class="btn btn--secondary" href={waLink()} target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>

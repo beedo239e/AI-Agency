@@ -1,0 +1,31 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).problem;
+---
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+    </div>
+    <div class="problem__grid">
+      {d.items.map((it) => (
+        <article class="problem__card reveal">
+          <span class="problem__icon"><Icon name={it.icon} size={22} /></span>
+          <h3>{it.title}</h3>
+          <p>{it.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .problem__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .problem__card { padding: 1.75rem; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); }
+  .problem__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--gold-soft); color: #8a5f12; margin-block-end: 1.25rem; }
+  .problem__card h3 { font-size: var(--fs-lg); margin-block-end: .5rem; }
+  .problem__card p { color: var(--ink-2); }
+  @media (max-width: 860px) { .problem__grid { grid-template-columns: 1fr; } }
+</style>

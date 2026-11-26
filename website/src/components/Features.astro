@@ -1,0 +1,35 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).features;
+---
+<section class="section section--surface" id="product">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+      <p class="lead">{d.lead}</p>
+    </div>
+    <div class="features">
+      {d.items.map((it) => (
+        <article class="feature reveal">
+          <span class="icon-tile"><Icon name={it.icon} /></span>
+          <div>
+            <h3>{it.title}</h3>
+            <p>{it.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); border-block-start: 1px solid var(--line); }
+  .feature { display: grid; gap: 1rem; align-content: start; padding: 2rem 1.75rem 2rem 0; border-block-end: 1px solid var(--line); }
+  [dir="rtl"] .feature { padding: 2rem 0 2rem 1.75rem; }
+  .feature h3 { font-size: var(--fs-lg); margin-block-end: .35rem; }
+  .feature p { color: var(--ink-2); }
+  @media (max-width: 960px) { .features { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .features { grid-template-columns: 1fr; } .feature, [dir="rtl"] .feature { padding-inline: 0; grid-template-columns: 44px 1fr; } }
+</style>

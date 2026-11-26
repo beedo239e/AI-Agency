@@ -1,0 +1,78 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { t, href, altPath, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const home = href(lang, "/");
+const links = [
+  { label: d.nav.product, href: `${home}#product` },
+  { label: d.nav.pricing, href: href(lang, "/pricing") },
+  { label: d.nav.sectors, href: `${home}#sectors` },
+  { label: d.nav.services, href: `${home}#services` },
+  { label: d.nav.faq, href: `${home}#faq` },
+];
+const other = altPath(lang, Astro.url.pathname);
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <Logo lang={lang} />
+    <nav class="nav" aria-label={d.nav.menu}>
+      <ul>{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </nav>
+    <div class="site-header__actions">
+      <a class="lang-switch" href={other} hreflang={lang === "ar" ? "en" : "ar"} aria-label={d.nav.switchLangLabel}>{d.nav.switchLang}</a>
+      <a class="btn btn--primary btn--sm header-cta" href={`${home}#contact`}>{d.nav.cta}</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" data-menu-open>
+        <Icon name="menu" size={22} /><span class="sr-only">{d.nav.menu}</span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobile-nav" hidden data-menu>
+    <ul>{links.map((l) => <li><a href={l.href} data-menu-link>{l.label}</a></li>)}</ul>
+    <a class="btn btn--primary btn--block" href={`${home}#contact`} data-menu-link>{d.nav.cta}</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-block-end: 1px solid transparent;
+    transition: border-color .2s, background-color .2s;
+  }
+  .site-header.is-scrolled { border-color: var(--line); background: color-mix(in srgb, var(--bg) 92%, transparent); }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: var(--header-h); }
+  .nav ul { display: flex; gap: .25rem; list-style: none; padding: 0; }
+  .nav a { display: block; padding: .45rem .8rem; border-radius: 999px; font-size: var(--fs-sm); font-weight: 500; color: var(--ink-2); transition: background-color .15s, color .15s; }
+  .nav a:hover { background: var(--bg-sunken); color: var(--ink); }
+  .site-header__actions { display: flex; align-items: center; gap: .5rem; }
+  .lang-switch { font-size: var(--fs-sm); font-weight: 600; padding: .45rem .8rem; border-radius: 999px; color: var(--ink-2); }
+  .lang-switch:hover { background: var(--bg-sunken); color: var(--ink); }
+  .menu-btn { display: none; width: 44px; height: 44px; border-radius: 12px; place-items: center; color: var(--ink); }
+  .menu-btn:hover { background: var(--bg-sunken); }
+  .mobile-nav { border-block-start: 1px solid var(--line); background: var(--bg); padding: .75rem var(--gutter) 1.25rem; }
+  .mobile-nav ul { list-style: none; padding: 0; margin-block-end: 1rem; }
+  .mobile-nav li a { display: block; padding: .85rem .25rem; font-weight: 600; font-size: var(--fs-lg); border-block-end: 1px solid var(--line); }
+  @media (max-width: 960px) {
+    .nav, .header-cta { display: none; }
+    .menu-btn { display: grid; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]")!;
+  const btn = document.querySelector<HTMLButtonElement>("[data-menu-open]")!;
+  const menu = document.querySelector<HTMLElement>("[data-menu]")!;
+  const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  const setOpen = (open: boolean) => { btn.setAttribute("aria-expanded", String(open)); menu.hidden = !open; };
+  btn.addEventListener("click", () => setOpen(btn.getAttribute("aria-expanded") !== "true"));
+  menu.querySelectorAll("[data-menu-link]").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+  matchMedia("(min-width: 961px)").addEventListener("change", (e) => e.matches && setOpen(false));
+</script>

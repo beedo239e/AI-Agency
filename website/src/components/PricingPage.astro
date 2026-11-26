@@ -1,0 +1,70 @@
+---
+import Base from "../layouts/Base.astro";
+import Pricing from "./Pricing.astro";
+import Faq from "./Faq.astro";
+import LeadForm from "./LeadForm.astro";
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const p = d.pricingPage;
+const names = [d.pricing.plans.starter.name, d.pricing.plans.growth.name, d.pricing.plans.business.name];
+---
+<Base lang={lang} title={d.meta.pricingTitle} description={d.meta.pricingDescription}>
+  <section class="section page-hero">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">{d.pricing.eyebrow}</p>
+        <h1 class="h2 page-title">{p.title}</h1>
+        <p class="lead">{p.lead}</p>
+      </div>
+      <Pricing lang={lang} showLink={false} headingLevel="h2" />
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2 class="h2 compare-title">{p.compareTitle}</h2>
+      <div class="table-wrap" tabindex="0">
+        <table class="compare">
+          <thead>
+            <tr><th scope="col">{p.feature}</th>{names.map((n, i) => <th scope="col" class:list={{ featured: i === 1 }}>{n}</th>)}</tr>
+          </thead>
+          <tbody>
+            {p.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.label}</th>
+                {r.values.map((v, i) => (
+                  <td class:list={{ featured: i === 1 }}>
+                    {v === true ? <Icon name="check" size={20} class="yes" label={p.included} />
+                      : v === false ? <Icon name="minus" size={20} class="no" label={p.notIncluded} />
+                      : <span class="num">{v}</span>}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <Faq title={p.faqTitle} items={p.faq} />
+  <LeadForm lang={lang} />
+</Base>
+<style>
+  .page-hero { padding-block-start: clamp(2.5rem, 2rem + 3vw, 4.5rem); }
+  .page-title { font-size: var(--fs-3xl); }
+  .compare-title { text-align: center; margin-block-end: 2rem; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .compare { width: 100%; min-width: 620px; border-collapse: collapse; font-size: var(--fs-sm); }
+  .compare th, .compare td { padding: 1rem 1.25rem; border-block-end: 1px solid var(--line); text-align: center; }
+  .compare th[scope="row"], .compare thead th:first-child { text-align: start; font-weight: 500; color: var(--ink-2); }
+  .compare thead th { font-size: var(--fs-md); font-weight: 700; background: var(--bg); }
+  .compare tbody tr:last-child > * { border-block-end: 0; }
+  .compare .featured { background: var(--brand-softer); }
+  .compare thead .featured { color: var(--brand); }
+  .compare :global(.yes) { color: var(--brand); margin-inline: auto; }
+  .compare :global(.no) { color: var(--line-strong); margin-inline: auto; }
+</style>

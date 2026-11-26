@@ -1,0 +1,153 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang).demo;
+const first = d.sectors[0];
+---
+<div class="demo" data-demo data-script={JSON.stringify(d.sectors)} data-typing={d.typing}>
+  <div class="demo__tabs" role="tablist" aria-label={d.label}>
+    {d.sectors.map((s, i) => (
+      <button role="tab" type="button" class="demo__tab" aria-selected={i === 0 ? "true" : "false"} data-sector={s.id}>{s.label}</button>
+    ))}
+  </div>
+
+  <div class="phone" aria-live="polite">
+    <div class="phone__head">
+      <div class="phone__avatar" aria-hidden="true" data-avatar>{first.business.charAt(0)}</div>
+      <div class="phone__who">
+        <strong data-business>{first.business}</strong>
+        <span><i class="dot"></i>{d.online}</span>
+      </div>
+    </div>
+    <div class="phone__body" data-body>
+      <noscript>
+        {first.messages.map((m) => <p class:list={["bubble", m.from === "in" ? "bubble--in" : "bubble--out"]}>{m.text}</p>)}
+      </noscript>
+    </div>
+    <div class="phone__foot" aria-hidden="true">
+      <span class="phone__input"></span>
+      <span class="phone__send"><Icon name="arrow" size={18} class="flip-icon" /></span>
+    </div>
+  </div>
+
+  <div class="demo__meta">
+    <span>{d.note}</span>
+    <button type="button" class="demo__replay" data-replay><Icon name="replay" size={16} />{d.replay}</button>
+  </div>
+</div>
+
+<style>
+  .demo { width: 100%; max-width: 400px; margin-inline: auto; }
+  .demo__tabs { display: flex; gap: .35rem; padding: .3rem; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; margin-block-end: 1rem; overflow-x: auto; scrollbar-width: none; }
+  .demo__tab { flex: 1; white-space: nowrap; padding: .45rem .8rem; border-radius: 999px; font-size: var(--fs-sm); font-weight: 600; color: var(--muted); transition: background-color .2s, color .2s; }
+  .demo__tab:hover { color: var(--ink); }
+  .demo__tab[aria-selected="true"] { background: var(--ink); color: #fff; }
+
+  .phone {
+    border-radius: 34px; overflow: hidden; background: var(--wa-bg);
+    border: 8px solid #10282c; box-shadow: var(--shadow-lg);
+    display: flex; flex-direction: column; height: 500px;
+  }
+  .phone__head { display: flex; align-items: center; gap: .7rem; padding: .85rem 1rem; background: var(--wa-head); color: #fff; }
+  .phone__avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #e8f3f1; color: var(--brand); font-weight: 700; }
+  .phone__who { display: grid; line-height: 1.3; }
+  .phone__who strong { font-size: var(--fs-sm); }
+  .phone__who span { font-size: var(--fs-xs); opacity: .85; display: inline-flex; align-items: center; gap: .35rem; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #5ee08f; display: inline-block; }
+
+  .phone__body {
+    flex: 1; padding: 1rem .85rem; display: flex; flex-direction: column; gap: .5rem; overflow: hidden;
+    background-color: var(--wa-bg);
+    background-image: radial-gradient(rgba(15,42,46,.06) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .phone__foot { display: flex; gap: .5rem; padding: .6rem .75rem; background: #f0ebe1; }
+  .phone__input { flex: 1; height: 38px; border-radius: 999px; background: #fff; }
+  .phone__send { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--wa-head); color: #fff; }
+  [dir="rtl"] .phone__send :global(svg) { transform: scaleX(-1); }
+
+  .demo__meta { display: flex; justify-content: space-between; align-items: center; margin-block-start: .75rem; font-size: var(--fs-xs); color: var(--muted); padding-inline: .5rem; }
+  .demo__replay { display: inline-flex; align-items: center; gap: .35rem; font-weight: 600; color: var(--brand); padding: .3rem .5rem; border-radius: 8px; }
+  .demo__replay:hover { background: var(--brand-soft); }
+
+  :global(.bubble) {
+    max-width: 84%; padding: .5rem .75rem .55rem; border-radius: 14px; font-size: .9rem; line-height: 1.55;
+    box-shadow: 0 1px 1px rgba(0,0,0,.06); position: relative; color: var(--ink);
+  }
+  :global(.bubble--in) { align-self: flex-start; background: var(--wa-in); border-start-start-radius: 4px; }
+  :global(.bubble--out) { align-self: flex-end; background: var(--wa-out); border-start-end-radius: 4px; }
+  :global(.bubble--typing) { display: inline-flex; gap: 4px; padding: .7rem .85rem; }
+  :global(.bubble--typing i) { width: 6px; height: 6px; border-radius: 50%; background: #8aa19e; animation: blink 1.2s infinite; }
+  :global(.bubble--typing i:nth-child(2)) { animation-delay: .15s; }
+  :global(.bubble--typing i:nth-child(3)) { animation-delay: .3s; }
+  :global(.bubble-enter) { animation: pop .32s var(--ease) both; }
+  @keyframes blink { 0%, 60%, 100% { opacity: .3 } 30% { opacity: 1 } }
+  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+  @media (max-width: 480px) { .phone { height: 460px; } }
+</style>
+
+<script>
+  type Msg = { from: "in" | "out"; text: string };
+  type Sector = { id: string; label: string; business: string; messages: Msg[] };
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-demo]")) {
+    const sectors: Sector[] = JSON.parse(root.dataset.script!);
+    const body = root.querySelector<HTMLElement>("[data-body]")!;
+    const nameEl = root.querySelector<HTMLElement>("[data-business]")!;
+    const avatar = root.querySelector<HTMLElement>("[data-avatar]")!;
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let run = 0;
+    let current = sectors[0];
+
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const bubble = (m: Msg) => {
+      const p = document.createElement("p");
+      p.className = `bubble bubble--${m.from} bubble-enter`;
+      p.textContent = m.text;
+      return p;
+    };
+
+    async function play(sector: Sector) {
+      const id = ++run;
+      current = sector;
+      body.replaceChildren();
+      nameEl.textContent = sector.business;
+      avatar.textContent = sector.business.charAt(0);
+      if (reduced) { sector.messages.forEach((m) => body.append(bubble(m))); return; }
+      await wait(350);
+      for (const m of sector.messages) {
+        if (id !== run) return;
+        if (m.from === "out") {
+          const typing = document.createElement("p");
+          typing.className = "bubble bubble--out bubble--typing bubble-enter";
+          typing.innerHTML = "<i></i><i></i><i></i>";
+          typing.setAttribute("aria-label", root.dataset.typing ?? "");
+          body.append(typing);
+          await wait(1100);
+          if (id !== run) return;
+          typing.replaceWith(bubble(m));
+        } else {
+          body.append(bubble(m));
+        }
+        await wait(m.from === "in" ? 700 : 1300);
+      }
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+        play(sectors[i]);
+      });
+    });
+    root.querySelector("[data-replay]")!.addEventListener("click", () => play(current));
+
+    // Start when visible.
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); play(current); }
+    });
+    io.observe(root);
+  }
+</script>

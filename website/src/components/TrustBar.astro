@@ -1,0 +1,25 @@
+---
+import { t, type Lang } from "../i18n";
+import { clientNames } from "../data/clients";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).trust;
+---
+<section class="trust" aria-label={d.title}>
+  <div class="container">
+    <p class="trust__title">{d.title}</p>
+    <ul class="trust__list">
+      {clientNames.map((c) => (
+        <li class:list={["trust__item", { "is-sample": c.placeholder }]}>
+          {c.name}{c.placeholder && <small>{d.sample}</small>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .trust { padding-block: 2rem 1rem; border-block: 1px solid var(--line); background: var(--surface); }
+  .trust__title { text-align: center; font-size: var(--fs-sm); color: var(--muted); margin-block-end: 1rem; }
+  .trust__list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 2.75rem; padding-block-end: 1rem; }
+  .trust__item { font-weight: 700; font-size: 1.15rem; color: #8b9a9c; letter-spacing: .01em; display: inline-flex; align-items: center; gap: .4rem; }
+  .trust__item small { font-size: .65rem; font-weight: 600; color: var(--gold); border: 1px dashed currentColor; padding: 0 .35rem; border-radius: 4px; }
+</style>

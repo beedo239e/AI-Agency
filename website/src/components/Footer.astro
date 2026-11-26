@@ -1,0 +1,60 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import { t, href, type Lang } from "../i18n";
+import { site, waLink } from "../data/site";
+import { services } from "../data/services";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const home = href(lang, "/");
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <Logo lang={lang} tone="light" />
+      <p>{d.footer.tagline}</p>
+      <a class="footer__wa" href={waLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} /> <span dir="ltr">{site.whatsappDisplay}</span>
+      </a>
+    </div>
+    <div>
+      <h3>{d.footer.product}</h3>
+      <ul>
+        {services.slice(0, 5).map((s) => <li><a href={href(lang, `/services/${s.slug}`)}>{s.title[lang]}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3>{d.footer.company}</h3>
+      <ul>
+        <li><a href={`${home}#product`}>{d.nav.product}</a></li>
+        <li><a href={href(lang, "/pricing")}>{d.nav.pricing}</a></li>
+        <li><a href={`${home}#sectors`}>{d.nav.sectors}</a></li>
+        <li><a href={`${home}#faq`}>{d.nav.faq}</a></li>
+        <li><a href={`${home}#contact`}>{d.footer.contact}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>{d.footer.follow}</h3>
+      <ul>
+        {site.socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.name}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© {year} {lang === "ar" ? "زيوني لخدمات الذكاء الاصطناعي" : "Zayoni AI"}. {d.footer.rights}</span>
+  </div>
+</footer>
+<style>
+  .footer { background: var(--ink); color: #b8c9c7; padding-block: 4rem 2rem; font-size: var(--fs-sm); }
+  .footer__grid { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: 2.5rem; }
+  .footer__brand p { margin-block: 1rem 1.25rem; max-width: 34ch; line-height: 1.7; }
+  .footer h3 { color: #fff; font-size: var(--fs-sm); font-weight: 600; margin-block-end: 1rem; }
+  .footer ul { list-style: none; padding: 0; display: grid; gap: .6rem; }
+  .footer a:hover { color: #fff; }
+  .footer__wa { display: inline-flex; align-items: center; gap: .5rem; color: #fff; font-weight: 600; padding: .55rem .9rem; border-radius: 999px; background: rgba(255,255,255,.08); }
+  .footer__wa:hover { background: rgba(255,255,255,.14); }
+  .footer__bottom { margin-block-start: 3rem; padding-block-start: 1.5rem; border-block-start: 1px solid rgba(255,255,255,.1); color: #8aa19e; }
+  @media (max-width: 860px) { .footer__grid { grid-template-columns: 1fr 1fr; } .footer__brand { grid-column: 1 / -1; } }
+</style>

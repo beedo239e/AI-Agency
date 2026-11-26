@@ -1,0 +1,94 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "./Icon.astro";
+import Faq from "./Faq.astro";
+import LeadForm from "./LeadForm.astro";
+import { t, href, type Lang } from "../i18n";
+import { services, type Service } from "../data/services";
+interface Props { lang: Lang; service: Service }
+const { lang, service: s } = Astro.props;
+const d = t(lang);
+const sp = d.servicePage;
+const others = services.filter((x) => x.slug !== s.slug).slice(0, 3);
+const brand = lang === "ar" ? "زيوني" : "Zayoni";
+---
+<Base lang={lang} title={`${s.title[lang]} | ${brand}`} description={s.summary[lang]}>
+  <section class="section svc-hero">
+    <div class="container svc-hero__grid">
+      <div>
+        <a class="back" href={`${href(lang, "/")}#services`}><Icon name="arrowBack" size={16} />{sp.back}</a>
+        <span class="icon-tile svc-hero__icon"><Icon name={s.icon} size={26} /></span>
+        <h1 class="svc-hero__title">{s.title[lang]}</h1>
+        <p class="lead">{s.summary[lang]}</p>
+        <div class="svc-hero__ctas">
+          <a class="btn btn--primary" href="#contact">{sp.cta}<Icon name="arrow" class="flip" /></a>
+          <span class="svc-hero__price"><small>{sp.price}</small><strong class="num">{s.price[lang]}</strong></span>
+        </div>
+      </div>
+      <aside class="card outcomes">
+        <h2>{sp.outcomes}</h2>
+        <ul>{s.outcomes[lang].map((o) => <li><Icon name="checkCircle" size={22} />{o}</li>)}</ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container two-col">
+      <div>
+        <h2 class="h2">{sp.features}</h2>
+        <ul class="check-list feat-list">{s.features[lang].map((f) => <li><Icon name="check" />{f}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="h2">{sp.steps}</h2>
+        <ol class="mini-steps">{s.steps[lang].map((st, i) => <li><span>{i + 1}</span>{st}</li>)}</ol>
+      </div>
+    </div>
+  </section>
+
+  <Faq title={sp.faq} items={s.faq.map((f) => ({ q: f.q[lang], a: f.a[lang] }))} />
+
+  <section class="section section--sunken">
+    <div class="container">
+      <h2 class="h2 others-title">{sp.other}</h2>
+      <div class="others">
+        {others.map((o) => (
+          <a class="other" href={href(lang, `/services/${o.slug}`)}>
+            <span class="icon-tile"><Icon name={o.icon} /></span>
+            <strong>{o.title[lang]}</strong>
+            <span>{o.tagline[lang]}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <LeadForm lang={lang} />
+</Base>
+<style>
+  .svc-hero { padding-block-start: clamp(2rem, 1.5rem + 2vw, 3.5rem); }
+  .svc-hero__grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(2rem, 1rem + 4vw, 4rem); align-items: center; }
+  .back { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--fs-sm); font-weight: 600; color: var(--muted); margin-block-end: 2rem; }
+  .back:hover { color: var(--brand); }
+  [dir="rtl"] .back :global(svg) { transform: scaleX(-1); }
+  .svc-hero__icon { width: 56px; height: 56px; border-radius: 16px; }
+  .svc-hero__title { font-size: var(--fs-3xl); margin-block: 1.25rem .5rem; letter-spacing: -.02em; }
+  .svc-hero__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-block-start: 2rem; }
+  .svc-hero__price { display: grid; line-height: 1.35; }
+  .svc-hero__price small { color: var(--muted); font-size: var(--fs-xs); }
+  .outcomes h2 { font-size: var(--fs-lg); margin-block-end: 1.25rem; }
+  .outcomes ul { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  .outcomes li { display: flex; gap: .75rem; align-items: center; font-weight: 600; }
+  .outcomes :global(svg) { color: var(--brand); flex: none; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 1rem + 4vw, 5rem); }
+  .feat-list { margin-block-start: 1.5rem; }
+  .mini-steps { list-style: none; padding: 0; display: grid; gap: 1rem; margin-block-start: 1.5rem; }
+  .mini-steps li { display: flex; gap: 1rem; align-items: center; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); font-weight: 500; }
+  .mini-steps span { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: #fff; font-weight: 700; font-size: var(--fs-sm); }
+  .others-title { text-align: center; margin-block-end: 2rem; }
+  .others { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .other { display: grid; gap: .5rem; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); transition: border-color .2s, transform .2s var(--ease); }
+  .other:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .other strong { margin-block-start: .5rem; }
+  .other span:last-child { color: var(--ink-2); font-size: var(--fs-sm); }
+  @media (max-width: 860px) { .svc-hero__grid, .two-col, .others { grid-template-columns: 1fr; } }
+</style>

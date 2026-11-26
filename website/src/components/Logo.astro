@@ -1,0 +1,15 @@
+---
+import { t, href, type Lang } from "../i18n";
+interface Props { lang: Lang; tone?: "dark" | "light" }
+const { lang, tone = "dark" } = Astro.props;
+const d = t(lang);
+---
+<a href={href(lang, "/")} class:list={["logo", `logo--${tone}`]} aria-label={lang === "ar" ? "زيوني، الرئيسية" : "Zayoni home"}>
+  <img src="/logo-mark.png" alt="" width="36" height="35" />
+  <span class="logo__word">{lang === "ar" ? "زيوني" : "Zayoni"}</span>
+</a>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.35rem; letter-spacing: -.01em; }
+  .logo img { width: 36px; height: auto; border-radius: 10px; }
+  .logo--light { color: #fff; }
+</style>

@@ -1,0 +1,26 @@
+---
+import Icon from "./Icon.astro";
+import { t, type Lang } from "../i18n";
+interface Props { lang: Lang }
+const d = t(Astro.props.lang).control;
+---
+<section class="section section--dark">
+  <div class="container control">
+    <div class="reveal">
+      <p class="eyebrow"><Icon name="shield" size={18} />{d.eyebrow}</p>
+      <h2 class="h2">{d.title}</h2>
+      <p class="lead">{d.lead}</p>
+    </div>
+    <ul class="control__list reveal">
+      {d.items.map((it) => <li><span><Icon name="check" size={18} /></span>{it}</li>)}
+    </ul>
+  </div>
+</section>
+<style>
+  .control { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: center; }
+  .control .h2 { color: #fff; }
+  .control__list { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  .control__list li { display: grid; grid-template-columns: 32px 1fr; gap: 1rem; align-items: start; padding: 1.1rem 1.25rem; border-radius: var(--radius); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: #dde8e6; }
+  .control__list span { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgba(127,214,201,.15); color: #7fd6c9; }
+  @media (max-width: 860px) { .control { grid-template-columns: 1fr; } }
+</style>
