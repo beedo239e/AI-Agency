@@ -1,0 +1,113 @@
+المخزون والطلبات | شركة زيوني للذكاء الاصطناعي 
+الخدمات › المخزون والطلبات 
+اعرف شنو عندك وشنو لازم تطلب 
+## المخزون والطلبات 
+راقب الأصناف والحركة، وخلي النقص والتأخير واضح قبل ما يتحول لمشكلة. 
+احجز موعد استشارة 
+شوف بقية الخدمات 
+طلب الموعد ينفتح عبر واتساب، ويتأكد بعد ما يرد فريقنا. 
+📦 
+شنو نسوي بهذا المجال؟ 
+## أربع طرق عملية نساعد بيها شركتك 
+نساعد المتاجر والمخازن بتنظيم بيانات المنتجات والطلبات، ووضع تنبيهات لنقص الكميات أو التأخير. لما يكون النظام مربوط بالمخزون الحقيقي، المساعد يعتمد على بيانات محدثة بدل التوقعات العشوائية. 
+01 
+## تنبيهات نقص المخزون 
+تحديد حد أدنى لكل صنف وتنبيه الشخص المسؤول عندما ينخفض الرصيد في النظام المتصل. 02 
+## ملخص حركة الأصناف 
+تقارير بالأصناف السريعة والبطيئة الحركة للمساعدة في تخطيط الشراء. 03 
+## متابعة الطلبات 
+تنظيم حالات الطلب: جديد، قيد التجهيز، جاهز، أو يحتاج متابعة حسب سير العمل. 04 
+## اقتراح إعادة الطلب 
+تجهيز قائمة مشتريات مقترحة وفق السجلات والتواريخ المتاحة، مع اعتماد الشراء من الموظف. 
+مثال من شغل الشركات 
+## شلون يصير التطبيق خطوة بخطوة؟ 
+مثال توضيحي، مو وعد بنتيجة محددة 
+## مثال: محل مواد غذائية يتكرر عنده نفاد أصناف 
+التحدي: أحياناً تنتهي سلع مطلوبة قبل أن ينتبه المسؤول عن المشتريات. 
+يُضبط حد إعادة الطلب للأصناف المهمة. 
+تصل حركة المبيعات والمخزون من النظام المربوط. 
+عند انخفاض الرصيد يظهر تنبيه وتُقترح كمية للمراجعة. 
+مدير المخزن يتأكد من الرصيد الفعلي ويوافق على الشراء. 
+الفائدة المحتملة: معلومات أسرع عن نقص الأصناف والطلبات، مع ضرورة الجرد والتحقق من الأرصدة. 
+التنفيذ والوضوح 
+## شنو نجهز، وشنو نحتاج منك؟ 
+## أمثلة على اللي نقدر نسلمك إياه 
+قائمة حقول المخزون وحالات الطلب. 
+قواعد تنبيه وتقارير حركة بسيطة. 
+إجراءات استثناءات وجرد وموافقة مشتريات. 
+## حتى نبدي صح 
+نحتاج ملفات الأصناف ووحدات القياس وآلية تحديث المخزون الحالية. التنبؤ الدقيق يحتاج بيانات تاريخية كافية. 
+أسئلة قبل البدء 
+## أسئلة وأجوبة هل يطلب بضاعة تلقائياً؟ 
+نوصي بمرحلة موافقة بشرية قبل إرسال أوامر الشراء، ويمكن تصميمها ضمن النظام. إذا المخزون المسجل غلط شنو يصير؟ 
+التقارير قد تكون غلط أيضاً؛ لذلك نضيف تنبيه ومراجعة وجرداً دورياً. 
+## تحب نناقش شلون نطبّق هذا بشغلك؟ 
+نسمع طبيعة نشاطك ونحدد أول خطوة عملية. لا يوجد موعد مؤكد قبل رد الفريق. 
+احجز موعد استشارة 
+أرسل تفاصيل طلبك 
+## خدمات أخرى ممكن تفيد شركتك 
+💬 واتساب وخدمة العملاء 
+📞 المساعد الصوتي 
+📅 البريد والمواعيد 
+📈 المبيعات وإدارة الزباين 
+📣 التسويق وصناعة المحتوى 
+📊 الحسابات والتقارير 
+⚙️ أتمتة العمل الداخلي 
+🎓 تدريب فريق العمل 
+احجز موعد استشارة عبر واتساب 
+Services › Inventory & orders 
+See what is available and what needs attention 
+## Inventory & orders 
+Track items and order movement, and surface shortages before they become customer problems. 
+Request a consultation appointment 
+Explore other services 
+WhatsApp opens an appointment request; the time is confirmed by our team. 
+📦 
+WHAT WE CAN DO 
+## Four practical ways we can help your business 
+We help stores and warehouses organize product and order records, set low-stock warnings, and monitor delays. With a live inventory integration, the assistant uses current records rather than guesses. 
+01 
+## Low-stock alerts 
+Set reorder thresholds and notify the right person when connected inventory falls below them. 02 
+## Product movement summaries 
+Highlight faster- and slower-moving items to support purchasing decisions. 03 
+## Order status tracking 
+Organize new, preparing, ready, and follow-up-required orders according to your workflow. 04 
+## Reorder suggestions 
+Prepare proposed purchase lists using available stock and sales history, subject to staff approval. 
+A REAL-WORLD SCENARIO 
+## How it works, step by step 
+ILLUSTRATIVE EXAMPLE 
+## Example: a grocery store repeatedly running out of essentials 
+The challenge: Popular products run out before the purchasing manager notices. 
+Set reorder thresholds for critical products. 
+Read sales and quantity changes from a connected stock system. 
+Trigger an alert and proposed reorder amount when stock drops. 
+A manager checks the count and approves the purchase. 
+Potential outcome: Potential benefit: earlier warnings and clearer order statuses, provided physical counts and records are reliable. 
+DELIVERY & REQUIREMENTS 
+## What we prepare—and what we need from you 
+## Examples of deliverables 
+Standardized inventory fields and order statuses. 
+Alert rules and movement reporting. 
+Stocktaking and purchase-approval procedures. 
+## To get started 
+We need product records, units of measure, and details of how your current stock data is updated. Forecast quality depends on sufficient history. 
+COMMON QUESTIONS 
+## Questions & answers Can it purchase stock automatically? 
+We recommend human authorization before purchase orders are sent. What if recorded stock is wrong? 
+Outputs can also be wrong; periodic stock checks and exception review are essential. 
+## Want to discuss this for your business? 
+Tell us what you do and the problem you want to solve. Your appointment is not confirmed until our team replies. 
+Request an appointment 
+Send your inquiry 
+## Other services you may need 
+💬 WhatsApp & customer service 
+📞 AI voice assistant 
+📅 Email & appointments 
+📈 Sales & customer management 
+📣 Marketing & content creation 
+📊 Accounting & reporting 
+⚙️ Internal workflow automation 
+🎓 Team training 
+Request a WhatsApp appointment 
