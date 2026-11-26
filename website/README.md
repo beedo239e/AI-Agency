@@ -36,4 +36,11 @@ npm run preview:export   # build + rewrite links to relative → preview/ (gitig
 Then republish `preview/index.html` with the other files of `preview/` (no `.woff`, sitemaps). Asset dir is `assets/` because the artifact host reserves names starting with `_`.
 
 ## Deploy
+**Live:** https://zayoni-ai.netlify.app (Netlify, public).
+
+```bash
+npm run deploy   # build + upload dist/ to Netlify (needs NETLIFY_AUTH_TOKEN locally)
+```
+For auto-deploy on every push: Netlify → Site configuration → Build & deploy → Link repository (root `netlify.toml` already configures it).
+
 `dist/` is plain static output. Recommended: Cloudflare Pages (free) — build command `npm run build`, output `dist`, root `website`.

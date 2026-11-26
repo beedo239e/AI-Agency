@@ -46,7 +46,7 @@ Delivery is founders + AI tools only (no freelancers), so favour automated, prod
 ## Website rules
 - Copy only in `website/src/i18n/{ar,en}.ts`; prices in `src/data/pricing.ts`; never hard-code text in components.
 - Never present placeholder testimonials/clients as real. Replace from `src/data/clients.ts` with approved quotes only.
-- Live prototype for the founders: https://claude.ai/artifact/2Shn93rpXECbv8dCDJgfZZ — after site changes run `npm run preview:export` and republish (see `website/README.md`).
+- **Public site: https://zayoni-ai.netlify.app** — after site changes run `npm run deploy` in `website/` (Netlify token is proxy-injected in the cloud env). The claude.ai artifact preview is secondary.
 - Verify visually (Playwright screenshots, desktop + mobile, RTL + LTR) after UI changes; `npm run build` must pass.
 
 ## Git
