@@ -14,6 +14,14 @@ until the founders confirm its scope (record in `docs/decisions/`).
 Delivery is founders + AI tools only (no freelancers), so favour automated, productized services.
 **Market:** Iraq (for now). Brand: Zayoni (زيوني). Site copy in Iraqi dialect.
 
+## How to work (founder's standing instruction)
+Act like a **senior software engineer** on every change, however small:
+- Understand the existing code and conventions before editing; keep changes focused and consistent with them.
+- Data and copy stay out of components (i18n + `src/data`); reuse components instead of duplicating markup.
+- Accessibility, RTL/LTR, mobile-first, performance and cross-browser fallbacks are part of "done".
+- Verify before claiming done: build passes, screenshots reviewed (desktop + mobile, AR + EN), live site checked after deploy.
+- Small, well-described commits; record real decisions in ADRs; never ship placeholders or claims as if they were real.
+
 ## Communication
 - The founder writes in Egyptian Arabic (often mixed with English). Reply in the same style:
   Egyptian Arabic for discussion, English for code, file names, commits and technical terms.

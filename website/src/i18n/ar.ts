@@ -89,8 +89,15 @@ const ar = {
     ],
   },
   trust: {
-    title: "نشاطات عراقية تشتغل ويا زيوني",
-    sample: "نموذج",
+    title: "مصمم للنشاطات العراقية",
+    items: [
+      { icon: "stethoscope", label: "العيادات" },
+      { icon: "utensils", label: "المطاعم" },
+      { icon: "bag", label: "المتاجر" },
+      { icon: "building", label: "العقارات" },
+      { icon: "book", label: "المعاهد" },
+      { icon: "sparkles", label: "مراكز التجميل" },
+    ],
   },
   problem: {
     eyebrow: "المشكلة",
@@ -276,9 +283,10 @@ const ar = {
     custom: "حسب الطلب",
   },
   testimonials: {
-    eyebrow: "آراء العملاء",
-    title: "شنو يگولون عملائنا",
-    sampleNote: "نموذج. يُستبدل بآراء العملاء الحقيقية",
+    eyebrow: "تجارب",
+    title: "شلون يفرق زيوني بالشغل اليومي",
+    lead: "أمثلة من أنواع النشاطات اللي نشتغل وياها، على شكل تجارب.",
+    exampleNote: "أمثلة توضيحية",
   },
   faq: {
     eyebrow: "أسئلة شائعة",

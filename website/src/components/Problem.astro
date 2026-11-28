@@ -6,13 +6,13 @@ const d = t(Astro.props.lang).problem;
 ---
 <section class="section">
   <div class="container">
-    <div class="section-head section-head--center reveal">
+    <div class="section-head section-head--center">
       <p class="eyebrow">{d.eyebrow}</p>
       <h2 class="h2">{d.title}</h2>
     </div>
     <div class="problem__grid">
       {d.items.map((it) => (
-        <article class="problem__card reveal">
+        <article class="problem__card">
           <span class="problem__icon"><Icon name={it.icon} size={22} /></span>
           <h3>{it.title}</h3>
           <p>{it.text}</p>

@@ -6,14 +6,14 @@ const d = t(Astro.props.lang).features;
 ---
 <section class="section section--surface" id="product">
   <div class="container">
-    <div class="section-head reveal">
+    <div class="section-head section-head--center">
       <p class="eyebrow">{d.eyebrow}</p>
       <h2 class="h2">{d.title}</h2>
       <p class="lead">{d.lead}</p>
     </div>
     <div class="features">
       {d.items.map((it) => (
-        <article class="feature reveal">
+        <article class="feature">
           <span class="icon-tile"><Icon name={it.icon} /></span>
           <div>
             <h3>{it.title}</h3>

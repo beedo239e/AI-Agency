@@ -7,14 +7,14 @@ const all = t(lang);
 const d = all.sectors;
 const planName = (id: string) => (all.pricing.plans as Record<string, { name: string }>)[id]?.name ?? id;
 ---
-<section class="section" id="sectors">
+<section class="section section--surface" id="sectors">
   <div class="container">
-    <div class="section-head reveal">
+    <div class="section-head section-head--center">
       <p class="eyebrow">{d.eyebrow}</p>
       <h2 class="h2">{d.title}</h2>
       <p class="lead">{d.lead}</p>
     </div>
-    <div class="sectors reveal" data-tabs>
+    <div class="sectors" data-tabs>
       <div class="sectors__tabs" role="tablist" aria-orientation="vertical">
         {d.items.map((s, i) => (
           <button type="button" role="tab" id={`tab-${s.id}`} aria-controls={`panel-${s.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>

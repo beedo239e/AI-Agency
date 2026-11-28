@@ -87,8 +87,15 @@ const en: Dict = {
     ],
   },
   trust: {
-    title: "Iraqi businesses working with Zayoni",
-    sample: "Sample",
+    title: "Built for Iraqi businesses",
+    items: [
+      { icon: "stethoscope", label: "Clinics" },
+      { icon: "utensils", label: "Restaurants" },
+      { icon: "bag", label: "Retail" },
+      { icon: "building", label: "Real estate" },
+      { icon: "book", label: "Institutes" },
+      { icon: "sparkles", label: "Beauty centers" },
+    ],
   },
   problem: {
     eyebrow: "The problem",
@@ -211,9 +218,10 @@ const en: Dict = {
     custom: "Custom",
   },
   testimonials: {
-    eyebrow: "Testimonials",
-    title: "What our clients say",
-    sampleNote: "Sample: to be replaced with real client quotes",
+    eyebrow: "In practice",
+    title: "What changes day to day with Zayoni",
+    lead: "Examples from the kinds of businesses we work with, told as experiences.",
+    exampleNote: "Illustrative examples",
   },
   faq: {
     eyebrow: "FAQ",

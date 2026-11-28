@@ -1,25 +1,26 @@
 ---
+import Icon from "./Icon.astro";
 import { t, type Lang } from "../i18n";
-import { clientNames } from "../data/clients";
 interface Props { lang: Lang }
 const d = t(Astro.props.lang).trust;
 ---
-<section class="trust" aria-label={d.title}>
-  <div class="container">
-    <p class="trust__title">{d.title}</p>
-    <ul class="trust__list">
-      {clientNames.map((c) => (
-        <li class:list={["trust__item", { "is-sample": c.placeholder }]}>
-          {c.name}{c.placeholder && <small>{d.sample}</small>}
-        </li>
-      ))}
+<section class="strip" aria-label={d.title}>
+  <div class="container strip__inner">
+    <p class="strip__title">{d.title}</p>
+    <ul class="strip__list">
+      {d.items.map((it) => <li><Icon name={it.icon} size={20} />{it.label}</li>)}
     </ul>
   </div>
 </section>
 <style>
-  .trust { padding-block: 2rem 1rem; border-block: 1px solid var(--line); background: var(--surface); }
-  .trust__title { text-align: center; font-size: var(--fs-sm); color: var(--muted); margin-block-end: 1rem; }
-  .trust__list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 2.75rem; padding-block-end: 1rem; }
-  .trust__item { font-weight: 700; font-size: 1.15rem; color: #8b9a9c; letter-spacing: .01em; display: inline-flex; align-items: center; gap: .4rem; }
-  .trust__item small { font-size: .65rem; font-weight: 600; color: var(--gold); border: 1px dashed currentColor; padding: 0 .35rem; border-radius: 4px; }
+  .strip { border-block: 1px solid var(--line); background: var(--surface); }
+  .strip__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; padding-block: 1.25rem; }
+  .strip__title { font-size: var(--fs-sm); font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .strip__list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; }
+  .strip__list li { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; color: var(--ink-2); }
+  .strip__list :global(svg) { color: var(--brand); }
+  @media (max-width: 860px) {
+    .strip__inner { justify-content: center; text-align: center; }
+    .strip__list { justify-content: center; gap: .6rem 1.25rem; }
+  }
 </style>

@@ -17,6 +17,12 @@ import { t, type Lang } from "../i18n";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = t(lang);
+/*
+ * Section order follows the visitor's decision path:
+ * what is it → why I need it → how it works → can I trust it → is it for my business
+ * → does it work for others → what does it cost / is it worth it → what else → questions → act.
+ * Backgrounds alternate bg / surface / sunken so adjacent sections never merge.
+ */
 ---
 <Base lang={lang}>
   <Hero lang={lang} />
@@ -25,20 +31,20 @@ const d = t(lang);
   <Features lang={lang} />
   <HowItWorks lang={lang} />
   <Control lang={lang} />
+  <Sectors lang={lang} />
+  <Testimonials lang={lang} />
   <section class="section section--sunken" id="pricing">
     <div class="container">
-      <div class="section-head section-head--center reveal">
+      <div class="section-head section-head--center">
         <p class="eyebrow">{d.pricing.eyebrow}</p>
         <h2 class="h2">{d.pricing.title}</h2>
         <p class="lead">{d.pricing.lead}</p>
       </div>
-      <Pricing lang={lang} headingLevel="h3" />
+      <Pricing lang={lang} headingLevel="h3" showAddons={false} />
     </div>
   </section>
   <Calculator lang={lang} />
-  <Sectors lang={lang} />
   <ServicesGrid lang={lang} />
-  <Testimonials lang={lang} />
-  <Faq id="faq" eyebrow={d.faq.eyebrow} title={d.faq.title} items={d.faq.items} />
+  <Faq id="faq" eyebrow={d.faq.eyebrow} title={d.faq.title} items={d.faq.items} sunken />
   <LeadForm lang={lang} />
 </Base>

@@ -7,16 +7,16 @@ const { lang } = Astro.props;
 const d = t(lang).services;
 const kindLabel = { core: d.core, addon: d.addon, custom: d.custom };
 ---
-<section class="section section--surface" id="services">
+<section class="section" id="services">
   <div class="container">
-    <div class="section-head section-head--center reveal">
+    <div class="section-head section-head--center">
       <p class="eyebrow">{d.eyebrow}</p>
       <h2 class="h2">{d.title}</h2>
       <p class="lead">{d.lead}</p>
     </div>
     <div class="svc-grid">
       {services.map((s) => (
-        <a class:list={["svc reveal", { "svc--core": s.kind === "core" }]} href={href(lang, `/services/${s.slug}`)}>
+        <a class:list={["svc", { "svc--core": s.kind === "core" }]} href={href(lang, `/services/${s.slug}`)}>
           <div class="svc__top">
             <span class="icon-tile"><Icon name={s.icon} /></span>
             <span class:list={["chip", { "chip--gold": s.kind !== "core" }]}>{kindLabel[s.kind]}</span>
@@ -34,7 +34,7 @@ const kindLabel = { core: d.core, addon: d.addon, custom: d.custom };
 </section>
 <style>
   .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .svc { display: flex; flex-direction: column; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--bg); transition: border-color .2s, transform .2s var(--ease), box-shadow .2s; }
+  .svc { display: flex; flex-direction: column; padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--surface); transition: border-color .2s, transform .2s var(--ease), box-shadow .2s; }
   .svc:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: var(--shadow); }
   .svc--core { grid-column: span 2; background: var(--brand-softer); border-color: #b3d3ce; border-color: color-mix(in srgb, var(--brand) 30%, var(--line)); }
   .svc__top { display: flex; justify-content: space-between; align-items: center; margin-block-end: 1.25rem; }

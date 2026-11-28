@@ -1,15 +1,15 @@
 ---
 import Icon from "./Icon.astro";
-interface Props { eyebrow?: string; title: string; items: { q: string; a: string }[]; id?: string }
-const { eyebrow, title, items, id } = Astro.props;
+interface Props { eyebrow?: string; title: string; items: { q: string; a: string }[]; id?: string; sunken?: boolean }
+const { eyebrow, title, items, id, sunken = false } = Astro.props;
 ---
-<section class="section" id={id}>
+<section class:list={["section", { "section--sunken": sunken }]} id={id}>
   <div class="container faq">
-    <div class="section-head reveal">
+    <div class="section-head">
       {eyebrow && <p class="eyebrow">{eyebrow}</p>}
       <h2 class="h2">{title}</h2>
     </div>
-    <div class="faq__list reveal">
+    <div class="faq__list">
       {items.map((it) => (
         <details class="faq__item">
           <summary>{it.q}<span class="faq__icon"><Icon name="plus" size={18} /></span></summary>

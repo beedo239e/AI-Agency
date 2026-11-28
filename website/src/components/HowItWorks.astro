@@ -5,13 +5,13 @@ const d = t(Astro.props.lang).how;
 ---
 <section class="section">
   <div class="container">
-    <div class="section-head section-head--center reveal">
+    <div class="section-head section-head--center">
       <p class="eyebrow">{d.eyebrow}</p>
       <h2 class="h2">{d.title}</h2>
     </div>
     <ol class="steps">
       {d.steps.map((s, i) => (
-        <li class="step reveal">
+        <li class="step">
           <div class="step__marker"><span>{i + 1}</span></div>
           <span class="chip">{s.tag}</span>
           <h3>{s.title}</h3>
